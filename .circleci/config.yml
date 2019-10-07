@@ -63,8 +63,6 @@ jobs:
           key: v3-build-cache-{{ checksum "go.sum"}}
           paths:
             - /root/.cache/go-build
-          
-      
       - store_artifacts:
           path: /root/.okteto
           
@@ -171,6 +169,7 @@ workflows:
             branches:
               only: 
                 - master
+                - cache-build-and-pkg
       - release-master:
           requires:
             - integration
