@@ -9,7 +9,10 @@ jobs:
       - checkout
       - restore_cache: 
           keys:
-            - v2-pkg-cache
+            - v3-pkg-cache-{{ checksum "go.sum"}}
+      - restore_cache: 
+          keys:
+            - v3-build-cache-{{ checksum "go.sum"}}
       - run: make test
       - run: env VERSION_STRING=$CIRCLE_TAG make -j 3 build-all
       - run: env VERSION_STRING=$CIRCLE_TAG make latest
@@ -18,9 +21,13 @@ jobs:
           paths:
             - bin
       - save_cache:
-          key: v2-pkg-cache
+          key: v3-pkg-cache-{{ checksum "go.sum"}}
+          paths:
+            - ~/go/pkg
+      - save_cache:
           paths:
             - ~/.cache/go-build
+          key: v3-build-cache-{{ checksum "go.sum"}}
       - store_artifacts:
           path: bin
           destination: binaries
@@ -31,7 +38,11 @@ jobs:
       - checkout
       - restore_cache: 
           keys:
-            - v2-pkg-cache
+            - v3-pkg-cache-root-{{ checksum "go.sum"}}
+      - restore_cache: 
+          keys:
+            - v3-build-cache-root-{{ checksum "go.sum"}}
+      
       - attach_workspace:
           at: ./artifacts
       - run: 
@@ -45,9 +56,15 @@ jobs:
             echo $HOME
             make integration
       - save_cache:
-          key: v2-pkg-cache
+          key: v3-pkg-cache-{{ checksum "go.sum"}}
           paths:
-            - ~/.cache/go-build
+            - /root/go/pkg
+      - save_cache:
+          key: v3-build-cache-{{ checksum "go.sum"}}
+          paths:
+            - /root/.cache/go-build
+          
+      
       - store_artifacts:
           path: /root/.okteto
           
