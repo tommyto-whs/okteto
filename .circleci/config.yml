@@ -56,11 +56,11 @@ jobs:
             echo $HOME
             make integration
       - save_cache:
-          key: v3-pkg-cache-{{ checksum "go.sum"}}
+          key: v3-pkg-cache-root-{{ checksum "go.sum"}}
           paths:
             - /root/go/pkg
       - save_cache:
-          key: v3-build-cache-{{ checksum "go.sum"}}
+          key: v3-build-cache-root-{{ checksum "go.sum"}}
           paths:
             - /root/.cache/go-build
       - store_artifacts:
