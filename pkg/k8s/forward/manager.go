@@ -104,7 +104,7 @@ func (p *PortForwardManager) forward(namespace, pod string, ready chan struct{})
 	dialer := spdy.NewDialer(upgrader, &http.Client{Transport: transport}, "POST", req.URL())
 	p.stopChan = make(chan struct{}, 1)
 	p.out = new(bytes.Buffer)
-	addresses := []string{"localhost"}
+	addresses := []string{"127.0.0.1"}
 
 	a := os.Getenv("OKTETO_ADDRESS")
 	if len(a) > 0 {
