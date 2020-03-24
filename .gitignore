@@ -6,5 +6,5 @@
 # golang binary
 cli
 .syncthing*
-bin/*
+# bin/*
 coverage.txt
